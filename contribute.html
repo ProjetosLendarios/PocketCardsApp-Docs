@@ -1,1 +1,585 @@
-contribuir 
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribuir | PocketCards</title>
+    <meta name="description" content="Descobre como contribuir para o PocketCards com ideias, bugs, melhorias de interface e pull requests.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #eef4f7;
+            --surface: rgba(255, 255, 255, 0.8);
+            --surface-strong: #ffffff;
+            --ink: #0b1a33;
+            --ink-soft: #556675;
+            --accent: #142745;
+            --accent-soft: #dde6ed;
+            --line: rgba(11, 26, 51, 0.1);
+            --shadow: 0 20px 60px rgba(11, 26, 51, 0.12);
+            --shadow-soft: 0 14px 34px rgba(11, 26, 51, 0.08);
+            --radius-xl: 34px;
+            --radius-lg: 26px;
+            --radius-md: 20px;
+            --container: min(1120px, calc(100% - 32px));
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: "Manrope", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(190, 206, 217, 0.65), transparent 34%),
+                radial-gradient(circle at 85% 18%, rgba(191, 206, 217, 0.42), transparent 26%),
+                linear-gradient(180deg, #f4f8fb 0%, #ebf2f6 100%);
+        }
+
+        img { display: block; max-width: 100%; }
+        a { color: inherit; text-decoration: none; }
+
+        .container {
+            width: var(--container);
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(18px);
+            background: rgba(238, 244, 247, 0.8);
+            border-bottom: 1px solid rgba(11, 26, 51, 0.06);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 0;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-mark {
+            width: 46px;
+            height: 46px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.current {
+            color: var(--ink);
+        }
+
+        .nav-cta,
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 54px;
+            padding: 0 22px;
+            border-radius: 999px;
+            font-weight: 800;
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        }
+
+        .nav-cta.disabled,
+        .button.disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .nav-cta,
+        .button.primary {
+            background: var(--accent);
+            color: #f7f9fb;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .button.ghost {
+            background: rgba(255, 255, 255, 0.66);
+            color: var(--ink);
+            border: 1px solid var(--line);
+        }
+
+        .button:hover { transform: translateY(-2px); }
+
+        .hero {
+            padding: 72px 0 30px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 34px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(221, 230, 237, 0.95);
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        h1, h2, h3 {
+            font-family: "Space Grotesk", sans-serif;
+            letter-spacing: -0.04em;
+            margin: 0;
+        }
+
+        .hero-copy h1 {
+            margin-top: 18px;
+            font-size: clamp(2.8rem, 5vw, 4.6rem);
+            line-height: 0.96;
+        }
+
+        .hero-copy p,
+        .section-heading p,
+        .card p,
+        .card li {
+            color: var(--ink-soft);
+            line-height: 1.75;
+        }
+
+        .hero-copy p {
+            margin: 16px 0 0;
+            max-width: 650px;
+            font-size: 1.06rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .hero-panel,
+        .card,
+        .cta-shell {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .hero-panel {
+            position: relative;
+            overflow: hidden;
+            padding: 26px;
+            min-height: 420px;
+        }
+
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("Res/banner.png") center/cover no-repeat;
+            opacity: 0.12;
+            transform: scale(1.12);
+        }
+
+        .hero-panel-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-panel img {
+            width: 88px;
+            height: 88px;
+            padding: 10px;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .hero-points {
+            margin: 22px 0 0;
+            padding-left: 18px;
+        }
+
+        .hero-points li + li {
+            margin-top: 10px;
+        }
+
+        .section {
+            padding: 34px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 22px;
+        }
+
+        .section-heading h2 {
+            margin: 10px 0 12px;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1;
+        }
+
+        .grid-3,
+        .grid-2 {
+            display: grid;
+            gap: 18px;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .card {
+            padding: 24px;
+        }
+
+        .index-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 800;
+        }
+
+        .card h3 {
+            margin: 16px 0 10px;
+            font-size: 1.24rem;
+            line-height: 1.15;
+        }
+
+        .card ul {
+            margin: 14px 0 0;
+            padding-left: 18px;
+        }
+
+        .highlight {
+            background: linear-gradient(145deg, rgba(11, 26, 51, 0.95), rgba(20, 39, 69, 0.92));
+            color: #f7f9fb;
+        }
+
+        .highlight p,
+        .highlight li {
+            color: rgba(247, 249, 251, 0.8);
+        }
+
+        .cta-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 24px;
+            align-items: center;
+            padding: 28px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.86) 0%, rgba(221, 230, 237, 0.98) 100%);
+        }
+
+        .cta-shell h2 {
+            margin-bottom: 12px;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1;
+        }
+
+        .cta-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: flex-end;
+        }
+
+        .site-footer {
+            padding: 36px 0 56px;
+        }
+
+        .footer-shell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(11, 26, 51, 0.08);
+            color: var(--ink-soft);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 980px) {
+            .hero-grid,
+            .cta-shell,
+            .grid-3,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-actions {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .nav {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                font-size: 0.88rem;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .hero {
+                padding-top: 42px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .button,
+            .nav-cta {
+                width: 100%;
+            }
+
+            .hero-actions,
+            .cta-actions {
+                flex-direction: column;
+            }
+
+            .footer-shell {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav">
+            <a class="logo" href="index.html" aria-label="PocketCards">
+                <span class="logo-mark">
+                    <img src="Res/icon.png" alt="Icone PocketCards">
+                </span>
+                <span>PocketCards</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Navegacao principal">
+                <a href="index.html">Inicio</a>
+                <a href="#formas">Como ajudar</a>
+                <a href="#fluxo">Fluxo</a>
+                <a href="creditos.html">Creditos</a>
+                <a class="current" href="contribute.html">Contribuir</a>
+                <a href="politicas.html">Politicas</a>
+            </nav>
+
+            <span class="nav-cta disabled">Play Store em breve</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow">Contribuir para o PocketCards</span>
+                    <h1>Ajuda a melhorar a app com ideias, testes, design e codigo.</h1>
+                    <p>
+                        PocketCards continua a evoluir. Se reparaste num bug, tens uma sugestao para a experiencia ou queres contribuir
+                        diretamente para o codigo, esta pagina junta o essencial para entrares no projeto sem ruido.
+                    </p>
+
+                    <div class="hero-actions">
+                        <span class="button primary disabled">Play Store em breve</span>
+                        <a class="button ghost" href="mailto:goncalosantosgarrido+PocketCards@gmail.com">Enviar feedback</a>
+                    </div>
+                </div>
+
+                <aside class="hero-panel">
+                    <div class="hero-panel-content">
+                        <img src="Res/icon.png" alt="Icone PocketCards">
+                        <h2 style="margin-top:18px; font-size:2rem; line-height:1;">Contribuicoes que fazem mesmo diferenca.</h2>
+                        <ul class="hero-points">
+                            <li>Melhorias de interface e clareza no fluxo de criacao de cartoes.</li>
+                            <li>Correcao de bugs em leitura, edicao, imagens e permissões.</li>
+                            <li>Refinamento da documentacao e das paginas do projeto.</li>
+                            <li>Feedback de uso real para tornar a app mais rapida e intuitiva.</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="formas">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Formas de ajudar</span>
+                    <h2>Nem todas as contribuicoes passam por escrever codigo.</h2>
+                    <p>
+                        Se queres participar, ha varios pontos de entrada. O importante e trazer contexto claro e ajudar o projeto a
+                        avancar com menos ambiguidade.
+                    </p>
+                </div>
+
+                <div class="grid-3">
+                    <article class="card">
+                        <span class="index-pill">01</span>
+                        <h3>Reportar bugs</h3>
+                        <p>Descreve o problema, como reproduzir, o que esperavas ver e, se possivel, junta prints ou logs por email.</p>
+                    </article>
+                    <article class="card">
+                        <span class="index-pill">02</span>
+                        <h3>Sugerir melhorias</h3>
+                        <p>Ideias de UX, navegacao, formulários, acessibilidade ou apresentacao dos cartoes sao sempre bem-vindas.</p>
+                    </article>
+                    <article class="card">
+                        <span class="index-pill">03</span>
+                        <h3>Propor implementacoes</h3>
+                        <p>Se quiseres ajudar de forma mais tecnica, organiza a ideia e entra em contacto para alinhar o melhor caminho.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container grid-2">
+                <article class="card">
+                    <span class="eyebrow">Antes de comecar</span>
+                    <h2 style="margin-top:12px; font-size:2rem; line-height:1.04;">O que incluir numa boa contribuicao.</h2>
+                    <ul>
+                        <li>Contexto curto sobre o problema ou objetivo.</li>
+                        <li>Passos concretos para reproduzir, quando for um bug.</li>
+                        <li>Impacto esperado para quem usa a app.</li>
+                        <li>Capturas de ecrã ou logs, quando ajudarem a perceber a mudanca.</li>
+                        <li>Descrição clara da verificacao feita antes de submeter.</li>
+                    </ul>
+                </article>
+
+                <article class="card highlight">
+                    <span class="eyebrow">Boas praticas</span>
+                    <h2 style="margin-top:12px; font-size:2rem; line-height:1.04;">Preferimos mudanças pequenas e bem explicadas.</h2>
+                    <p>
+                        Mudancas pequenas e bem contextualizadas sao muito mais faceis de avaliar. Se estiveres a sugerir melhorias na UI,
+                        tenta manter coerencia com a linguagem visual do projeto e explicar rapidamente a decisao tomada.
+                    </p>
+                    <ul>
+                        <li>Evita misturar mudancas grandes com correcoes pequenas na mesma proposta.</li>
+                        <li>Confirma que a app compila antes de partilhar uma alteracao.</li>
+                        <li>Quando mudares comportamento visual, junta contexto e screenshots.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="fluxo">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Fluxo sugerido</span>
+                    <h2>Um caminho simples para colaborar sem friccao.</h2>
+                    <p>
+                        Este fluxo nao precisa de ser pesado. Serve so para manter a conversa clara entre quem reporta, implementa e revê.
+                    </p>
+                </div>
+
+                <div class="grid-3">
+                    <article class="card">
+                        <span class="index-pill">1</span>
+                        <h3>Explica a ideia</h3>
+                        <p>Cria um ponto de contexto para a melhoria, bug ou sugestao antes de qualquer implementacao.</p>
+                    </article>
+                    <article class="card">
+                        <span class="index-pill">2</span>
+                        <h3>Faz a mudanca</h3>
+                        <p>Implementa com foco, mantendo a alteracao o mais objetiva possivel.</p>
+                    </article>
+                    <article class="card">
+                        <span class="index-pill">3</span>
+                        <h3>Valida e explica</h3>
+                        <p>Compila, testa o fluxo afetado e resume no PR o que foi mudado e como confirmar.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="cta-shell">
+                    <div>
+                        <span class="eyebrow">Links diretos</span>
+                        <h2>Queres avancar ja?</h2>
+                        <p>
+                            Podes enviar feedback, voltar a ver a homepage da app ou acompanhar a futura chegada do PocketCards a uma
+                            pagina publica na Play Store.
+                        </p>
+                    </div>
+
+                    <div class="cta-actions">
+                        <span class="button primary disabled">Play Store em breve</span>
+                        <a class="button ghost" href="creditos.html">Creditos</a>
+                        <a class="button ghost" href="mailto:goncalosantosgarrido+PocketCards@gmail.com">Enviar email</a>
+                        <a class="button ghost" href="index.html">Homepage</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-shell">
+            <div>
+                <strong>PocketCards</strong><br>
+                <span>Projeto Android para gerir cartoes digitais com uma interface clara e moderna.</span>
+            </div>
+
+            <div class="footer-links">
+                <a href="index.html">Inicio</a>
+                <a href="#formas">Como ajudar</a>
+                <a href="#fluxo">Fluxo</a>
+                <a href="creditos.html">Creditos</a>
+                <a href="politicas.html">Politicas</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

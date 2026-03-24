@@ -1,1 +1,1032 @@
-aaa
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketCards | Cartoes digitais no teu bolso</title>
+    <meta name="description" content="PocketCards e uma app Android para guardar cartoes, cupoes e bilhetes com codigos de barras e QR Codes num unico sitio simples.">
+    <meta property="og:title" content="PocketCards">
+    <meta property="og:description" content="Guarda cartoes digitais, cupoes e bilhetes com um acesso rapido e organizado.">
+    <meta property="og:image" content="Res/banner.png">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #eef4f7;
+            --bg-strong: #dce5ec;
+            --surface: rgba(250, 252, 253, 0.88);
+            --surface-strong: #ffffff;
+            --ink: #0b1a33;
+            --ink-soft: #556675;
+            --line: rgba(11, 26, 51, 0.12);
+            --line-strong: rgba(11, 26, 51, 0.22);
+            --accent: #142745;
+            --accent-soft: #dde6ed;
+            --accent-muted: #8ea2b6;
+            --shadow: 0 24px 70px rgba(11, 26, 51, 0.14);
+            --shadow-soft: 0 18px 40px rgba(11, 26, 51, 0.08);
+            --radius-xl: 34px;
+            --radius-lg: 26px;
+            --radius-md: 20px;
+            --container: min(1120px, calc(100% - 32px));
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Manrope", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(190, 206, 217, 0.65), transparent 34%),
+                radial-gradient(circle at 85% 18%, rgba(191, 206, 217, 0.42), transparent 26%),
+                linear-gradient(180deg, #f4f8fb 0%, #ebf2f6 100%);
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: var(--container);
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(18px);
+            background: rgba(238, 244, 247, 0.8);
+            border-bottom: 1px solid rgba(11, 26, 51, 0.06);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 0;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-mark {
+            width: 46px;
+            height: 46px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #f7f9fb;
+            font-weight: 700;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-cta.disabled,
+        .button.disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .hero {
+            padding: 72px 0 36px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 40px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(221, 230, 237, 0.95);
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+        }
+
+        .hero-copy h1 {
+            margin: 18px 0 16px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2.8rem, 5vw, 4.8rem);
+            line-height: 0.96;
+            letter-spacing: -0.05em;
+        }
+
+        .hero-copy p {
+            margin: 0;
+            max-width: 620px;
+            color: var(--ink-soft);
+            font-size: 1.08rem;
+            line-height: 1.75;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 54px;
+            padding: 0 22px;
+            border-radius: 999px;
+            font-weight: 800;
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button.primary {
+            background: var(--accent);
+            color: #f7f9fb;
+            box-shadow: var(--shadow);
+        }
+
+        .button.ghost {
+            background: rgba(255, 255, 255, 0.64);
+            color: var(--ink);
+            border: 1px solid rgba(11, 26, 51, 0.1);
+        }
+
+        .hero-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 34px;
+        }
+
+        .metric {
+            padding: 18px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.62);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .metric strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .metric span {
+            display: block;
+            color: var(--ink-soft);
+            font-size: 0.94rem;
+            line-height: 1.55;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .visual-card {
+            position: relative;
+            min-height: 620px;
+            padding: 28px;
+            overflow: hidden;
+            border-radius: 40px;
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(221, 230, 237, 0.92) 100%);
+            box-shadow: var(--shadow);
+        }
+
+        .visual-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("Res/banner.png") center/cover no-repeat;
+            opacity: 0.14;
+            transform: scale(1.12);
+        }
+
+        .floating-logo {
+            position: absolute;
+            top: 28px;
+            right: 28px;
+            width: 88px;
+            height: 88px;
+            padding: 10px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            box-shadow: var(--shadow-soft);
+            z-index: 1;
+        }
+
+        .phone-stack {
+            position: absolute;
+            left: 50%;
+            bottom: 28px;
+            transform: translateX(-50%);
+            width: min(100%, 500px);
+            height: 420px;
+        }
+
+        .phone {
+            position: absolute;
+            width: 220px;
+            padding: 10px;
+            border-radius: 36px;
+            background: linear-gradient(180deg, #10213d 0%, #08172d 100%);
+            box-shadow: 0 28px 60px rgba(11, 26, 51, 0.22);
+        }
+
+        .phone::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 84px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .phone img {
+            width: 100%;
+            height: 100%;
+            border-radius: 28px;
+            object-fit: cover;
+        }
+
+        .phone.one {
+            left: 0;
+            bottom: 10px;
+            transform: rotate(-8deg);
+        }
+
+        .phone.two {
+            left: 146px;
+            bottom: 74px;
+            z-index: 2;
+        }
+
+        .phone.three {
+            right: 0;
+            bottom: 0;
+            transform: rotate(8deg);
+        }
+
+        .section {
+            padding: 38px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 22px;
+        }
+
+        .section-heading h2 {
+            margin: 10px 0 12px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2rem, 4vw, 3.3rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .section-heading p {
+            max-width: 720px;
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.72;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .feature-card,
+        .story-card,
+        .cta-card {
+            position: relative;
+            overflow: hidden;
+            padding: 24px;
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .feature-card::before,
+        .story-card::before,
+        .cta-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent);
+            pointer-events: none;
+        }
+
+        .feature-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 800;
+        }
+
+        .feature-card h3,
+        .story-card h3 {
+            margin: 18px 0 10px;
+            font-size: 1.28rem;
+            line-height: 1.2;
+        }
+
+        .feature-card p,
+        .story-card p {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.68;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .story-card.alt {
+            background: linear-gradient(145deg, rgba(11, 26, 51, 0.95), rgba(20, 39, 69, 0.92));
+            color: #f7f9fb;
+        }
+
+        .story-card.alt p,
+        .story-card.alt li {
+            color: rgba(247, 249, 251, 0.78);
+        }
+
+        .story-card ul {
+            margin: 18px 0 0;
+            padding-left: 18px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .shot-card {
+            padding: 18px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .shot-frame {
+            padding: 10px;
+            border-radius: 30px;
+            background: linear-gradient(180deg, #10213d 0%, #08172d 100%);
+        }
+
+        .shot-frame img {
+            aspect-ratio: 9 / 19.5;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 22px;
+        }
+
+        .shot-card h3 {
+            margin: 16px 0 8px;
+            font-size: 1.16rem;
+        }
+
+        .shot-card p {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.6;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .step {
+            padding: 24px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .step strong {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            background: var(--accent);
+            color: #f7f9fb;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.1rem;
+        }
+
+        .step h3 {
+            margin: 0 0 10px;
+            font-size: 1.25rem;
+        }
+
+        .step p {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.68;
+        }
+
+        .author-card {
+            display: grid;
+            grid-template-columns: 180px minmax(0, 1fr);
+            gap: 24px;
+            align-items: center;
+            padding: 30px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .author-photo {
+            width: 180px;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 28px;
+            border: 1px solid rgba(11, 26, 51, 0.08);
+            background: rgba(221, 230, 237, 0.65);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .author-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-copy h3 {
+            margin: 14px 0 10px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            line-height: 1.04;
+            letter-spacing: -0.04em;
+        }
+
+        .author-copy p {
+            margin: 0;
+            max-width: 620px;
+            color: var(--ink-soft);
+            line-height: 1.75;
+        }
+
+        .author-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .author-chip {
+            display: inline-flex;
+            align-items: center;
+            min-height: 46px;
+            padding: 0 16px;
+            border-radius: 999px;
+            background: rgba(221, 230, 237, 0.95);
+            color: var(--accent);
+            font-weight: 800;
+            border: 1px solid rgba(11, 26, 51, 0.08);
+        }
+
+        .cta-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 24px;
+            align-items: center;
+            margin-top: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.86) 0%, rgba(221, 230, 237, 0.98) 100%);
+        }
+
+        .cta-card h2 {
+            margin: 0 0 14px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .cta-card p {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.75;
+        }
+
+        .cta-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: flex-end;
+        }
+
+        .site-footer {
+            padding: 36px 0 56px;
+        }
+
+        .footer-shell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(11, 26, 51, 0.08);
+            color: var(--ink-soft);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1040px) {
+            .hero-grid,
+            .story-grid,
+            .cta-card {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-copy h1 {
+                max-width: 10ch;
+            }
+
+            .phone-stack {
+                position: relative;
+                width: 100%;
+                height: 440px;
+                margin-top: 28px;
+                right: auto;
+                bottom: auto;
+            }
+
+            .cta-actions {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 840px) {
+            .nav {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                gap: 14px;
+                font-size: 0.88rem;
+            }
+
+            .hero-metrics,
+            .feature-grid,
+            .gallery,
+            .steps,
+            .author-card {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-card {
+                min-height: auto;
+            }
+
+            .phone-stack {
+                height: auto;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .phone {
+                position: relative;
+                inset: auto;
+                width: 100%;
+                transform: none;
+            }
+
+            .author-photo {
+                width: min(220px, 100%);
+            }
+        }
+
+        @media (max-width: 620px) {
+            .hero {
+                padding-top: 42px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .logo-mark {
+                width: 40px;
+                height: 40px;
+            }
+
+            .button,
+            .nav-cta {
+                width: 100%;
+            }
+
+            .hero-actions,
+            .cta-actions {
+                flex-direction: column;
+            }
+
+            .visual-card {
+                padding: 22px;
+                border-radius: 30px;
+            }
+
+            .floating-logo {
+                width: 70px;
+                height: 70px;
+                border-radius: 22px;
+            }
+
+            .phone-stack {
+                grid-template-columns: 1fr;
+            }
+
+            .author-card {
+                padding: 24px;
+            }
+
+            .footer-shell {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav">
+            <a class="logo" href="#topo" aria-label="PocketCards">
+                <span class="logo-mark">
+                    <img src="Res/icon.png" alt="Icone PocketCards">
+                </span>
+                <span>PocketCards</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Navegacao principal">
+                <a href="#funcionalidades">Funcionalidades</a>
+                <a href="#screenshots">Screenshots</a>
+                <a href="#fluxo">Fluxo</a>
+                <a href="creditos.html">Creditos</a>
+                <a href="contribute.html">Contribuir</a>
+                <a href="politicas.html">Politicas</a>
+            </nav>
+
+            <span class="nav-cta disabled">Play Store em breve</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="topo">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow">App Android para cartoes digitais</span>
+                    <h1>Guarda cartoes, cupoes e bilhetes num sitio claro e rapido.</h1>
+                    <p>
+                        PocketCards junta codigos de barras, QR Codes, icones, imagens e edicao simples numa experiencia pensada para
+                        encontrares o cartao certo em segundos, sem confusao e sem apps espalhadas.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="button primary" href="#screenshots">Ver a app</a>
+                        <span class="button ghost disabled">Play Store em breve</span>
+                    </div>
+
+                    <div class="hero-metrics">
+                        <article class="metric">
+                            <strong>QR + codigos de barras</strong>
+                            <span>Leitura, deteccao do tipo e visualizacao no detalhe do cartao.</span>
+                        </article>
+                        <article class="metric">
+                            <strong>Imagens e recorte</strong>
+                            <span>Icone quadrado e frente/verso no formato certo, tudo pronto para organizar.</span>
+                        </article>
+                        <article class="metric">
+                            <strong>Edicao rapida</strong>
+                            <span>Cria, ajusta e atualiza qualquer cartao sem sair da tua colecao.</span>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="visual-card">
+                        <img class="floating-logo" src="Res/icon.png" alt="PocketCards wallet icon">
+
+                        <div class="phone-stack" aria-label="Pre-visualizacao da app">
+                            <figure class="phone one">
+                                <img src="Res/Prints/Screenshot_20241117_201811_PocketCards.jpg" alt="Vista da grelha principal da app">
+                            </figure>
+                            <figure class="phone two">
+                                <img src="Res/Prints/Screenshot_20241117_201817_PocketCards.jpg" alt="Vista do detalhe de um cartao">
+                            </figure>
+                            <figure class="phone three">
+                                <img src="Res/Prints/Screenshot_20241117_201823_PocketCards.jpg" alt="Vista de criacao de um cartao">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="funcionalidades">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Funcionalidades principais</span>
+                    <h2>Feita para ser pratica, rapida e facil de manter.</h2>
+                    <p>
+                        PocketCards foi pensada para o uso real: cartoes de fidelizacao, cupoes, passes, bilhetes ou qualquer codigo
+                        que queiras guardar e abrir sem perder tempo.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <span class="feature-index">01</span>
+                        <h3>Criacao guiada</h3>
+                        <p>Um fluxo claro para dar nome, escolher cor, definir tipo de codigo e completar o cartao sem campos confusos.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-index">02</span>
+                        <h3>Leitura inteligente</h3>
+                        <p>A camara reconhece o codigo lido e atualiza automaticamente se e QR Code ou codigo de barras.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-index">03</span>
+                        <h3>Icone proprio</h3>
+                        <p>O cartao pode ter um icone dedicado para ficar mais facil de identificar na lista principal.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-index">04</span>
+                        <h3>Frente e verso</h3>
+                        <p>As imagens do cartao podem ser escolhidas e recortadas no formato certo para manter uma apresentacao limpa.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-index">05</span>
+                        <h3>Edicao no detalhe</h3>
+                        <p>Ao abrir um cartao, podes consultar a informacao e entrar logo em modo de edicao no mesmo ecra.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-index">06</span>
+                        <h3>Design consistente</h3>
+                        <p>Paleta unificada, grelha clara e navegacao flutuante para manter a experiencia mais leve e moderna.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container story-grid">
+                <article class="story-card">
+                    <span class="eyebrow">Porque usar</span>
+                    <h3>Menos apps abertas, menos capturas perdidas, menos procura manual.</h3>
+                    <p>
+                        Em vez de andares a procurar emails, screenshots ou apps diferentes para cada fidelizacao, tens tudo reunido numa
+                        colecao visual onde cada cartao fica identificado pelo nome, pela cor e pelo icone.
+                    </p>
+                    <ul>
+                        <li>Guarda cartoes de loja, cupoes e acessos numa unica lista.</li>
+                        <li>Mostra apenas o codigo quando precisas ou usa tambem as imagens da frente e do verso.</li>
+                        <li>Atualiza qualquer cartao facilmente sempre que muda a informacao.</li>
+                    </ul>
+                </article>
+
+                <article class="story-card alt">
+                    <span class="eyebrow">O que a app resolve</span>
+                    <h3>Organizacao visual para coisas do dia a dia.</h3>
+                    <p>
+                        A proposta do PocketCards nao e inventar um ecossistema gigante. E dar-te um sitio simples para guardar o que ja
+                        tens e abrir o cartao certo quando chega o momento de o mostrar.
+                    </p>
+                    <ul>
+                        <li>Ideal para lojas, ginasios, bilhetes ou validacoes pontuais.</li>
+                        <li>Boa leitura visual mesmo com varios cartoes na grelha.</li>
+                        <li>Experiencia mobile-first, pensada para Compose e Android.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="screenshots">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Screenshots</span>
+                    <h2>A app em acao, do registo ao detalhe.</h2>
+                    <p>
+                        A pagina usa material real da app para mostrar como a experiencia flui entre lista principal, detalhes e criacao
+                        de novos cartoes.
+                    </p>
+                </div>
+
+                <div class="gallery">
+                    <article class="shot-card">
+                        <div class="shot-frame">
+                            <img src="Res/Prints/Screenshot_20241117_201811_PocketCards.jpg" alt="Ecra principal do PocketCards">
+                        </div>
+                        <h3>Colecao principal</h3>
+                        <p>A lista de cartoes fica organizada para aceder rapidamente ao que usas mais.</p>
+                    </article>
+                    <article class="shot-card">
+                        <div class="shot-frame">
+                            <img src="Res/Prints/Screenshot_20241117_201817_PocketCards.jpg" alt="Detalhe de um cartao no PocketCards">
+                        </div>
+                        <h3>Detalhe e consulta</h3>
+                        <p>Nome, codigo e visualizacao do cartao ficam reunidos num ecra simples de ler.</p>
+                    </article>
+                    <article class="shot-card">
+                        <div class="shot-frame">
+                            <img src="Res/Prints/Screenshot_20241117_201823_PocketCards.jpg" alt="Formulario de criacao no PocketCards">
+                        </div>
+                        <h3>Criacao assistida</h3>
+                        <p>O fluxo de adicionar cartoes foi pensado para reduzir duvidas e acelerar o preenchimento.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="fluxo">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Fluxo rapido</span>
+                    <h2>Tres passos para ter o cartao pronto.</h2>
+                    <p>
+                        A experiencia foi desenhada para que a criacao e a consulta sejam naturais mesmo quando estas com pressa ou a
+                        mexer so com uma mao.
+                    </p>
+                </div>
+
+                <div class="steps">
+                    <article class="step">
+                        <strong>1</strong>
+                        <h3>Cria o cartao</h3>
+                        <p>Escolhe nome, cor e tipo de codigo. Se quiseres, adiciona tambem icone, frente e verso.</p>
+                    </article>
+                    <article class="step">
+                        <strong>2</strong>
+                        <h3>Le ou escreve o codigo</h3>
+                        <p>Podes usar a camara para ler o codigo ou introduzi-lo manualmente quando precisares.</p>
+                    </article>
+                    <article class="step">
+                        <strong>3</strong>
+                        <h3>Abre e edita quando for preciso</h3>
+                        <p>Toca no cartao, consulta a informacao e ajusta qualquer detalhe sempre que algo mudar.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="autor">
+            <div class="container">
+                <article class="author-card">
+                    <div class="author-photo">
+                        <img src="Res/GoncaloGarrido/GoncaloGarrido.jpg" alt="Fotografia de Goncalo Garrido">
+                    </div>
+
+                    <div class="author-copy">
+                        <span class="eyebrow">Autor</span>
+                        <h3>Goncalo Garrido</h3>
+                        <p>
+                            PocketCards foi criado e desenvolvido por mim com foco numa experiencia clara, rapida e organizada para
+                            guardar cartoes digitais sem ruido.
+                        </p>
+
+                        <div class="author-meta">
+                            <span class="author-chip">Criado por Goncalo Garrido</span>
+                            <a class="author-chip" href="mailto:Goncalosantosgarrido+PocketCards@gmail.com">
+                                Goncalosantosgarrido+PocketCards@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <article class="cta-card">
+                    <div>
+                        <span class="eyebrow">Explorar mais</span>
+                        <h2>Queres acompanhar o projeto ou contribuir?</h2>
+                        <p>
+                            A documentacao do PocketCards continua aqui no site. Podes ver a politica, abrir a pagina de contribuicao ou
+                            acompanhar novidades enquanto a publicacao na Play Store nao fica disponivel.
+                        </p>
+                    </div>
+
+                    <div class="cta-actions">
+                        <a class="button ghost" href="creditos.html">Creditos</a>
+                        <a class="button primary" href="contribute.html">Contribuir</a>
+                        <a class="button ghost" href="politicas.html">Politicas</a>
+                        <span class="button ghost disabled">Play Store em breve</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-shell">
+            <div>
+                <strong>PocketCards</strong><br>
+                <span>Cartoes digitais com acesso rapido e uma apresentacao clara.</span>
+            </div>
+
+            <div class="footer-links">
+                <a href="#topo">Topo</a>
+                <a href="#funcionalidades">Funcionalidades</a>
+                <a href="#screenshots">Screenshots</a>
+                <a href="creditos.html">Creditos</a>
+                <a href="contribute.html">Contribuir</a>
+                <a href="politicas.html">Politicas</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
